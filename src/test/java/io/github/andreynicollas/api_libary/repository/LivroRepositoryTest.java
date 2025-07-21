@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest
@@ -104,5 +105,26 @@ class LivroRepositoryTest {
         System.out.println(livro.getTitulo());
         System.out.println("Autor: ");
         System.out.println(livro.getAutor().getNome());
+    }
+
+    @Test
+    void pesquisarPorTituloTest() {
+        List<Livro> lista = repository.findByTitulo("O roubo da casa de doce");
+        lista.forEach(System.out::println);
+    }
+
+    @Test
+    void pesquisarPorIsbnTest() {
+        List<Livro> lista = repository.findByIsbn("00045-67890");
+        lista.forEach(System.out::println);
+    }
+
+    @Test
+    void pesquisarPorTituloEPrecoTest() {
+        var preco = BigDecimal.valueOf(700);
+        var tituloPesquisa = "O dia sem noite";
+
+        List<Livro> lista = repository.findByTituloAndPreco(tituloPesquisa, preco);
+        lista.forEach(System.out::println);
     }
 }
