@@ -95,4 +95,14 @@ class LivroRepositoryTest {
         UUID id = UUID.fromString("1d0fd8ae-fbbd-4673-9016-eff91546c7da");
         repository.deleteById(id);
     }
+
+    @Test
+    void buscarLivroTest() {
+        UUID id = UUID.fromString("262da54e-e8c5-4b71-b594-41dfefe828e6");
+        Livro livro = repository.findById(id).orElse(null);
+        System.out.println("Livro: ");
+        System.out.println(livro.getTitulo());
+        System.out.println("Autor: ");
+        System.out.println(livro.getAutor().getNome());
+    }
 }
