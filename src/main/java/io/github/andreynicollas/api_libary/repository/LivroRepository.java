@@ -3,6 +3,7 @@ package io.github.andreynicollas.api_libary.repository;
 import io.github.andreynicollas.api_libary.model.Autor;
 import io.github.andreynicollas.api_libary.model.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -24,4 +25,24 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
 
     // select * from livro where titulo = ? or isbn = ?
     List<Livro> findByTituloOrIsbn(String titulo, String isbn);
+
+    // JPQL - referencia as entidades
+    // select l.* from livro as l order by l.titulo
+    @Query("select l from Livro as l order by l.titulo, l.preco")
+    List<Livro> listarTodosOrdenadoPorTituloAndPreco();
+
+    @Query("select a from Livro l join l.autor a")
+    List<Autor> listarAutoresDosLivros();
+
+    @Query("select distinct l.titulo from Livro l")
+    List<String> listarNomesDiferentesLivros();
+
+    @Query("""
+            select l.genero
+            from Livro l
+            join l.autor a
+            where a.nacionalidade = 'Brasileiro'
+            order by l.genero
+            """)
+    List<String> listarGenerosAutoresBrasileiros();
 }
