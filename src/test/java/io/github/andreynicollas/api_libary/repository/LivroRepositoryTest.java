@@ -163,4 +163,14 @@ class LivroRepositoryTest {
         var resultado = repository.findByGeneroPositionalParameters(GeneroLivro.FICCAO, "preco");
         resultado.forEach(System.out::println);
     }
+
+    @Test
+    void deletePorGeneroTest() {
+        repository.deleteByGenero(GeneroLivro.FICCAO);
+    }
+
+    @Test
+    void updateDataPublicacaoTest() {
+        repository.updateDataPublicacao(LocalDate.of(2000,1,1));
+    }
 }
