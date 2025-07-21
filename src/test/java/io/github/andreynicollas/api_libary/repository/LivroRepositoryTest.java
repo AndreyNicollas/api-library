@@ -36,4 +36,44 @@ class LivroRepositoryTest {
         livro.setAutor(autor);
         repository.save(livro);
     }
+
+    @Test
+    void salvarAutorELivroTest() {
+        Livro livro = new Livro();
+        livro.setIsbn("12345-67890");
+        livro.setPreco(BigDecimal.valueOf(100));
+        livro.setGenero(GeneroLivro.FICCAO);
+        livro.setTitulo("Um outro Livro");
+        livro.setDataPublicacao(LocalDate.of(1980,1,2));
+
+        Autor autor = new Autor();
+        autor.setNome("Carlos Eduardo");
+        autor.setNacionalidade("Brasileiro");
+        autor.setDataNascimento(LocalDate.of(2000, 4, 27));
+
+        autorRepository.save(autor);
+
+        livro.setAutor(autor);
+
+        repository.save(livro);
+    }
+
+    @Test
+    void salvarCascadeTest() {
+        Livro livro = new Livro();
+        livro.setIsbn("12345-67890");
+        livro.setPreco(BigDecimal.valueOf(100));
+        livro.setGenero(GeneroLivro.FICCAO);
+        livro.setTitulo("UFO");
+        livro.setDataPublicacao(LocalDate.of(1980,1,2));
+
+        Autor autor = new Autor();
+        autor.setNome("Andrey Nicollas");
+        autor.setNacionalidade("Brasileiro");
+        autor.setDataNascimento(LocalDate.of(2000, 4, 27));
+
+        livro.setAutor(autor);
+
+        repository.save(livro);
+    }
 }
