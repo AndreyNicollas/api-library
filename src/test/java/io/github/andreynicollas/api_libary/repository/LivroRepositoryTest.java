@@ -3,6 +3,7 @@ package io.github.andreynicollas.api_libary.repository;
 import io.github.andreynicollas.api_libary.model.Autor;
 import io.github.andreynicollas.api_libary.model.GeneroLivro;
 import io.github.andreynicollas.api_libary.model.Livro;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,14 +25,14 @@ class LivroRepositoryTest {
     @Test
     void salvarTest() {
         Livro livro = new Livro();
-        livro.setIsbn("12345-67890");
+        livro.setIsbn("010101-020202");
         livro.setPreco(BigDecimal.valueOf(100));
         livro.setGenero(GeneroLivro.FICCAO);
-        livro.setTitulo("UFO");
+        livro.setTitulo("Ciencias");
         livro.setDataPublicacao(LocalDate.of(1980,1,2));
 
         Autor autor = autorRepository
-                .findById(UUID.fromString("e53c75c2-4393-4587-8da7-b27ff139839b"))
+                .findById(UUID.fromString("a730a9c2-849b-465c-a28d-56690922a2eb"))
                 .orElse(null);
 
         livro.setAutor(autor);
@@ -44,11 +45,11 @@ class LivroRepositoryTest {
         livro.setIsbn("12345-67890");
         livro.setPreco(BigDecimal.valueOf(100));
         livro.setGenero(GeneroLivro.FICCAO);
-        livro.setTitulo("Um outro Livro");
+        livro.setTitulo("Novamente, um outro Livro");
         livro.setDataPublicacao(LocalDate.of(1980,1,2));
 
         Autor autor = new Autor();
-        autor.setNome("Carlos Eduardo");
+        autor.setNome("Maria José João Silva e Silva");
         autor.setNacionalidade("Brasileiro");
         autor.setDataNascimento(LocalDate.of(2000, 4, 27));
 
@@ -80,10 +81,10 @@ class LivroRepositoryTest {
 
     @Test
     void atualizarAutorDoLivro() {
-        UUID id = UUID.fromString("1d0fd8ae-fbbd-4673-9016-eff91546c7da");
+        UUID id = UUID.fromString("2a9fc1b1-6aed-41cd-896f-4069465d53a9");
         var livroAtualizar = repository.findById(id).orElse(null);
 
-        UUID idAutor = UUID.fromString("3136d920-308a-4099-8354-bfb8421b2eab");
+        UUID idAutor = UUID.fromString("260267b9-7038-4666-82b3-fc7ae6a36c56");
         Autor andrey = autorRepository.findById(idAutor).orElse(null);
 
         livroAtualizar.setAutor(andrey);
@@ -98,13 +99,12 @@ class LivroRepositoryTest {
     }
 
     @Test
+    @Transactional
     void buscarLivroTest() {
-        UUID id = UUID.fromString("262da54e-e8c5-4b71-b594-41dfefe828e6");
+        UUID id = UUID.fromString("09464794-803b-40f3-8169-adf30b15f037");
         Livro livro = repository.findById(id).orElse(null);
         System.out.println("Livro: ");
         System.out.println(livro.getTitulo());
-        System.out.println("Autor: ");
-        System.out.println(livro.getAutor().getNome());
     }
 
     @Test
