@@ -4,6 +4,7 @@ import io.github.andreynicollas.api_libary.model.Autor;
 import io.github.andreynicollas.api_libary.repository.AutorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,5 +27,21 @@ public class AutorService {
 
     public void deletar(Autor autor) {
         repository.delete(autor);
+    }
+
+    public List<Autor> pesquisa(String nome, String nacionalidade) {
+        if (nome != null && nacionalidade != null) {
+            return repository.findByNomeContainingIgnoreCaseAndNacionalidadeContainingIgnoreCase(nome, nacionalidade);
+        }
+
+        if (nome != null) {
+            return  repository.findByNomeContainingIgnoreCase(nome);
+        }
+
+        if (nacionalidade != null) {
+            return repository.findByNacionalidadeContainingIgnoreCase(nacionalidade);
+        }
+
+        return repository.findAll();
     }
 }

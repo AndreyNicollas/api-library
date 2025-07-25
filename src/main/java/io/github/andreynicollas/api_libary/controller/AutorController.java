@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/autores") // localhost:8080/autores
@@ -34,7 +36,7 @@ public class AutorController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<AutorDTO> obterDetalhes(@PathVariable("id") String id) {
+    public ResponseEntity<AutorDTO> obterAutorPorId(@PathVariable("id") String id) {
         var idAutor = UUID.fromString(id);
         Optional<Autor> autorOptional = service.obterPorId(idAutor);
 
@@ -50,7 +52,7 @@ public class AutorController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deletar(@PathVariable("id") String id) {
+    public ResponseEntity<Void> deletarAutor(@PathVariable("id") String id) {
         var idAutor = UUID.fromString(id);
         Optional<Autor> autorOptional = service.obterPorId(idAutor);
 
@@ -60,5 +62,19 @@ public class AutorController {
 
         service.deletar(autorOptional.get());
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AutorDTO>> pesquisarAutor(
+            @RequestParam(value = "nome", required = false) String nome,
+            @RequestParam(value = "nacionalidade", required = false) String nacionalidade) {
+        List<Autor> result = service.pesquisa(nome, nacionalidade);
+        List<AutorDTO> lista = result.stream()
+                .map(autor -> new AutorDTO(autor.getId(),
+                        autor.getNome(),
+                        autor.getDataNascimento(),
+                        autor.getNacionalidade())
+                ).collect(Collectors.toList());
+        return ResponseEntity.ok(lista);
     }
 }
