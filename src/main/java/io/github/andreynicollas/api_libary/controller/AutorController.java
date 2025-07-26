@@ -1,6 +1,7 @@
 package io.github.andreynicollas.api_libary.controller;
 
 import io.github.andreynicollas.api_libary.controller.dto.AutorDTO;
+import io.github.andreynicollas.api_libary.controller.dto.ErroResposta;
 import io.github.andreynicollas.api_libary.model.Autor;
 import io.github.andreynicollas.api_libary.service.AutorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class AutorController {
                 .path("/{id}")
                 .buildAndExpand(autorEntidade.getId())
                 .toUri();
-
+        
         return ResponseEntity.created(location).build();
     }
 
