@@ -6,7 +6,7 @@ import io.github.andreynicollas.api_libary.exceptions.OperacaoNaoPermitidaExcept
 import io.github.andreynicollas.api_libary.exceptions.ResgistroDuplicadoException;
 import io.github.andreynicollas.api_libary.model.Autor;
 import io.github.andreynicollas.api_libary.service.AutorService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/autores") // localhost:8080/autores
+@RequiredArgsConstructor
 public class AutorController {
 
-    @Autowired
-    private AutorService service;
+    private final AutorService service;
 
     @PostMapping
     public ResponseEntity<Object> salvarAutor(@RequestBody AutorDTO autor) {
