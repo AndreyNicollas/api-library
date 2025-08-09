@@ -82,7 +82,7 @@ public class AutorController {
     public ResponseEntity<List<AutorDTO>> pesquisarAutor(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "nacionalidade", required = false) String nacionalidade) {
-        List<Autor> result = service.pesquisa(nome, nacionalidade);
+        List<Autor> result = service.pesquisaByExample(nome, nacionalidade);
         List<AutorDTO> lista = result.stream()
                 .map(autor -> new AutorDTO(autor.getId(),
                         autor.getNome(),
@@ -93,7 +93,7 @@ public class AutorController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> atualizarAutor(@PathVariable("id") String id, @RequestBody AutorDTO dto) {
+    public ResponseEntity<Object> atualizarAutor(@PathVariable("id") String id, @RequestBody @Valid AutorDTO dto) {
         try {
             var idAutor = UUID.fromString(id);
             Optional<Autor> autorOptional = service.obterPorId(idAutor);
