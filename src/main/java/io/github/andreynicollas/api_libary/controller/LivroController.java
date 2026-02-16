@@ -1,8 +1,15 @@
 package io.github.andreynicollas.api_libary.controller;
 
+import io.github.andreynicollas.api_libary.controller.dto.CadastroLivroDto;
+import io.github.andreynicollas.api_libary.controller.dto.ErroResposta;
+import io.github.andreynicollas.api_libary.exceptions.ResgistroDuplicadoException;
 import io.github.andreynicollas.api_libary.service.LivroService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,4 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class LivroController {
 
     private final LivroService livroService;
+
+    @PostMapping
+    public ResponseEntity<Object> salvar(@RequestBody @Valid CadastroLivroDto dto) {
+        try {
+            // mapear dto para entidade
+            // enviar a entidade para o service validar e salvar na base
+            // criar url para acesso dos dados do livro
+            // retornar codigo created com header location
+            return ResponseEntity.ok(dto);
+        } catch (ResgistroDuplicadoException e) {
+            var erroDto = ErroResposta.conflito(e.getMessage());
+            return ResponseEntity.status(erroDto.status()).body(erroDto);
+        }
+    }
 }
