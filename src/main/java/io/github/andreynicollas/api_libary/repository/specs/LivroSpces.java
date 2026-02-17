@@ -2,6 +2,8 @@ package io.github.andreynicollas.api_libary.repository.specs;
 
 import io.github.andreynicollas.api_libary.model.GeneroLivro;
 import io.github.andreynicollas.api_libary.model.Livro;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
 
 public class LivroSpces {
@@ -24,5 +26,14 @@ public class LivroSpces {
         return (root, query, cb) ->
                 cb.equal(cb.function("to_char", String.class,
                         root.get("dataPublicacao"), cb.literal("YYYY")), anoPublicacao);
+    }
+
+    public static Specification<Livro> nomeAutorLike(String nome) {
+        return (root, query, cb) -> {
+            Join<Object, Object> joinAutor = root.join("autor", JoinType.LEFT);
+            return cb.like(cb.upper(joinAutor.get("nome")), "%"+ nome.toUpperCase() + "%");
+
+            //return cb.like(cb.upper(root.get("autor").get("nome")), "%" + nome.toUpperCase() + "%");
+        };
     }
 }
