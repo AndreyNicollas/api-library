@@ -32,10 +32,9 @@ public class LivroService {
         livroRepository.delete(livro);
     }
 
-    public List<Livro> pesquisa(String isbn, String titulo, String nomeAutor, GeneroLivro genero, String anoPublicacao) {
+    public List<Livro> pesquisa(String isbn, String titulo, String nomeAutor, GeneroLivro genero, Integer anoPublicacao) {
 
         // select * from livro where isbn = :isbn and nomeAutor =
-
 //        Specification<Livro> specs = Specification
 //                .where(LivroSpces.isbnEqual(isbn))
 //                .and(LivroSpces.tituloLike(titulo))
@@ -56,6 +55,10 @@ public class LivroService {
 
         if (genero != null) {
             specs = specs.and(generoEqual(genero));
+        }
+
+        if (anoPublicacao != null) {
+            specs = specs.and(anoPublicacaoEqual(anoPublicacao));
         }
 
         return livroRepository.findAll(specs);
