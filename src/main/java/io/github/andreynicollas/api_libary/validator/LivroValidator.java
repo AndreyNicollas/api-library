@@ -43,5 +43,4 @@ public class LivroValidator {
                 .stream()
                 .anyMatch(id -> !id.equals(livro.getId()));
     }
-
 }
